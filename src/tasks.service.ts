@@ -65,8 +65,16 @@ export class TasksService {
     return newTask.id;
   }
 
-  editTask(): string {
-    return 'Hello World!';
+  updateTask(taskId: number, title: string, description: string): number {
+    let tasks = this.getTasksFromDataFile();
+    const updatedTask: TaskDTO = {
+      id: taskId,
+      title,
+      description,
+    };
+    tasks = tasks.map((task) => (task.id === taskId ? updatedTask : task));
+    this.writeToTasksFile(tasks);
+    return updatedTask.id;
   }
 
   deleteTask(): string {

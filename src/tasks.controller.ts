@@ -10,6 +10,7 @@ import {
   Response,
   Query,
   Body,
+  Param,
 } from '@nestjs/common';
 import { NewTaskDTO, TaskDTO } from './DTOs';
 import { TasksService } from './tasks.service';
@@ -50,9 +51,22 @@ export class TasksController {
     }
   }
 
-  @Put()
-  editTask(@Req() req: Request, @Res() res: Response): number {
-    return 1;
+  @Put(':taskId')
+  updateTask(@Param('taskId') taskId: string, @Body() body: TaskDTO) {
+    try {
+      const { title, description } = body;
+      const updatedTaskId: number = this.tasksService.updateTask(
+        +taskId,
+        title,
+        description,
+      );
+      return {
+        msg: 'Success',
+        data: updatedTaskId,
+      };
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   @Delete()
