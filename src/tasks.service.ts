@@ -77,7 +77,13 @@ export class TasksService {
     return updatedTask.id;
   }
 
-  deleteTask(): string {
-    return 'Hello World!';
+  deleteTask(taskId: number): number {
+    const tasks = this.getTasksFromDataFile();
+    const indexToDelete = tasks.findIndex((task) => task.id === taskId);
+    if (indexToDelete > -1) {
+      tasks.splice(indexToDelete, 1);
+    }
+    this.writeToTasksFile(tasks);
+    return taskId;
   }
 }

@@ -69,8 +69,16 @@ export class TasksController {
     }
   }
 
-  @Delete()
-  deleteTask(@Req() req: Request, @Res() res: Response): number {
-    return 1;
+  @Delete(':taskId')
+  deleteTask(@Param('taskId') taskId: string) {
+    try {
+      const deletedTaskId: number = this.tasksService.deleteTask(+taskId);
+      return {
+        msg: 'Success',
+        data: deletedTaskId,
+      };
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
