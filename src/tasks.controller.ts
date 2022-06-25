@@ -27,7 +27,10 @@ export class TasksController {
         : this.tasksService.getAllTasks();
       return {
         msg: 'Success',
-        data: tasks,
+        data: {
+          tasks,
+          count: tasks.length,
+        },
       };
     } catch (err) {
       console.error(err);
