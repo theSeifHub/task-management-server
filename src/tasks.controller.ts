@@ -9,8 +9,9 @@ import {
   Request,
   Response,
   Query,
+  Body,
 } from '@nestjs/common';
-import { TaskDTO } from './DTOs';
+import { NewTaskDTO, TaskDTO } from './DTOs';
 import { TasksService } from './tasks.service';
 
 @Controller('api/tasks')
@@ -33,8 +34,20 @@ export class TasksController {
   }
 
   @Post()
-  createTask(@Req() req: Request, @Res() res: Response): number {
-    return 1;
+  createTask(@Body() body: NewTaskDTO) {
+    try {
+      const { title, description } = body;
+      const newTaskId: number = this.tasksService.createTask(
+        title,
+        description,
+      );
+      return {
+        msg: 'Success',
+        data: newTaskId,
+      };
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   @Put()
