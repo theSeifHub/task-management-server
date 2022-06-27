@@ -54,13 +54,13 @@ export class TasksService {
   }
 
   createTask(title: string, description: string): number {
-    const tasks = this.getTasksFromDataFile();
+    let tasks = this.getTasksFromDataFile();
     const newTask: TaskDTO = {
       id: this.generateId(tasks.length),
       title,
       description,
     };
-    tasks.push(newTask);
+    tasks = [newTask, ...tasks];
     this.writeToTasksFile(tasks);
     return newTask.id;
   }
